@@ -1,0 +1,36 @@
+
+services:
+  production:  # host in PgAddmin registration
+    container_name: postgres_production_container 
+    image: postgres:latest 
+    environment:
+      - POSTGRES_DB=prod_db # optional
+      - POSTGRES_USER=prod_user
+      - POSTGRES_PASSWORD=prod_pwd
+    ports:
+      - "5432:5432"
+    volumes:
+      - prod_data:/var/lib/postgresql/data
+
+    
+  pg-admin:
+    # image: dpage/pgadmin4:atest 
+    image: dpage/pgadmin4:8.9
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@email.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=5050
+
+    ports:
+      - "5050:5050"
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - production
+    ports:
+      - 8080:8080
+
+volumes:
+  prod_data:
