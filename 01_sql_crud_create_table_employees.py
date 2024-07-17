@@ -1,16 +1,26 @@
 import psycopg2
+from dotenv import load_dotenv
+import os
+from rich.console import Console
 
-# Establishing the connection
-# environment:
-#   - POSTGRES_DB=prod_db
-#   - POSTGRES_USER=prod_user
-#   - POSTGRES_PASSWORD=prod_pwd
+console = Console()
+# Load environment variables from .env file
+load_dotenv()
+
+# Access the variables
+prod_host = os.getenv("PROD_HOST")
+prod_user = os.getenv("PROD_USER")
+prod_pwd = os.getenv("PROD_PWD")
+prod_db = os.getenv("PROD_DB")
+prod_port = os.getenv("PROD_PORT")
+console.print(prod_host, prod_user, prod_pwd, prod_db)
 
 conn = psycopg2.connect(
-    database="prod_db",
-    user="prod_user",
-    password="prod_pwd",
-    host="localhost",
+    database=prod_db,
+    user=prod_user,
+    password=prod_pwd,
+    host=prod_host,
+    port=prod_port,
 )
 # conn = psycopg2.connect(
 #     database="dev_db",
@@ -20,9 +30,9 @@ conn = psycopg2.connect(
 #     port="6543",
 # )
 if conn:
-    print(f"Conn: {conn}\n")
+    console.print(f"[green]Conn: {conn}\n[/green]")
 else:
-    print("NO CONNECTION\n")
+    console.print(f"[red]NO CONNECTION[/red]")
 
 cursor = conn.cursor()
 
@@ -53,7 +63,7 @@ try:
     """
     cursor.execute(sql)
     conn.commit()
-    print(f"{TABLE_NAME} table created successfully........\n")
+    print(f"{TABLE_NAME} table altered successfully........\n")
 
 except Exception as e:
     print(f"Error {e}")
