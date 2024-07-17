@@ -1,8 +1,10 @@
 
 services:
-  production:  # host in PgAddmin registration
+  production:  # host in PgAdmin registration connection tab
     container_name: postgres_production_container 
     image: postgres:latest 
+    networks:
+      - prod_network
     environment:
       - POSTGRES_DB=prod_db # optional
       - POSTGRES_USER=prod_user
@@ -14,18 +16,20 @@ services:
 
     
   pg-admin:
-    # image: dpage/pgadmin4:atest 
     image: dpage/pgadmin4:8.9
+    networks:
+      - prod_network
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@email.com
       - PGADMIN_DEFAULT_PASSWORD=admin
       - PGADMIN_LISTEN_PORT=5050
-
     ports:
       - "5050:5050"
 
   adminer:
     image: adminer
+    networks:
+      - prod_network
     restart: always
     depends_on:
       - production
@@ -34,3 +38,7 @@ services:
 
 volumes:
   prod_data:
+
+networks:
+  prod_network:
+ 
