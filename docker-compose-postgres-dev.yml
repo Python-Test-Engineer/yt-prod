@@ -1,0 +1,22 @@
+
+services:
+  dev:  # host in PgAdmin registration connection tab
+    container_name: postgres_dev_container 
+    image: postgres:14
+    networks:
+      - dev_network
+    environment:
+      - POSTGRES_DB=dev_db # optional
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=dev_pwd
+    ports:
+      - "6543:5432"
+    volumes:
+      - dev_data:/var/lib/postgresql/data
+
+volumes:
+  dev_data:
+
+networks:
+  dev_network:
+ 

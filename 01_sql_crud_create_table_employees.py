@@ -12,6 +12,13 @@ conn = psycopg2.connect(
     password="prod_pwd",
     host="localhost",
 )
+# conn = psycopg2.connect(
+#     database="dev_db",
+#     user="dev_user",
+#     password="dev_pwd",
+#     host="localhost",
+#     port="6543",
+# )
 if conn:
     print(f"Conn: {conn}\n")
 else:

@@ -15,6 +15,13 @@ try:
         password="prod_pwd",
         host="localhost",
     )
+    # conn = psycopg2.connect(
+    #     database="dev_db",
+    #     user="dev_user",
+    #     password="dev_pwd",
+    #     host="localhost",
+    #     port="6543",
+    # )
     cursor = conn.cursor()
     for i in range(2000):
         n1 = random.randint(5, 15)
