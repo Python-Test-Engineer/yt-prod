@@ -1,38 +1,45 @@
+import traceback
 import psycopg2
 from dotenv import load_dotenv
 import os
 from rich.console import Console
+from rich.traceback import install
+
+install()  # This will replace the default traceback with a rich traceback
 
 console = Console()
 # Load environment variables from .env file
 load_dotenv()
 
 # Access the variables
-prod_host = os.getenv("PROD_HOST")
-prod_user = os.getenv("PROD_USER")
-prod_pwd = os.getenv("PROD_PWD")
-prod_db = os.getenv("PROD_DB")
-prod_port = os.getenv("PROD_PORT")
-console.print(prod_host, prod_user, prod_pwd, prod_db)
-
-conn = psycopg2.connect(
-    database=prod_db,
-    user=prod_user,
-    password=prod_pwd,
-    host=prod_host,
-    port=prod_port,
-)
-# conn = psycopg2.connect(
-#     database="dev_db",
-#     user="dev_user",
-#     password="dev_pwd",
-#     host="localhost",
-#     port="6543",
-# )
-if conn:
-    console.print(f"[green]Conn: {conn}\n[/green]")
+enviroment = os.getenv("ENVIRONMENT")
+if enviroment == "PROD":
+    host = os.getenv("PROD_HOST")
+    user = os.getenv("PROD_USER")
+    pwd = os.getenv("PROD_PWD")
+    db = os.getenv("PROD_DB")
+    port = os.getenv("PROD_PORT")
 else:
+    host = os.getenv("DEV_HOST")
+    user = os.getenv("DEV_USER")
+    pwd = os.getenv("DEV_PWD")
+    db = os.getenv("DEV_DB")
+    port = os.getenv("DEV_PORT")
+
+console.print(enviroment, host, user, pwd, db, port)
+try:
+    conn = psycopg2.connect(
+        database=db,
+        user=user,
+        password=pwd,
+        host=host,
+        port=port,
+    )
+    console.print(f"[green]Conn: {conn}\n[/green]")
+except Exception as e:
+    console.print(f"Error {e}")
     console.print(f"[red]NO CONNECTION[/red]")
+
 
 cursor = conn.cursor()
 
