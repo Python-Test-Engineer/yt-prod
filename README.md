@@ -15,3 +15,14 @@ Rather than destroying and recreating though development etc, the idea is that t
 We can then replicate it to a test network to run tests.
 
 Always keeping PROD as isolated from testing and development as possible.
+
+
+## Combining multiple files
+
+We have split Postgres, PgAdmin and Adminer into their separate files but ensure that they have the same network.
+
+We can then run all three one at at time or in one line:
+
+`docker compose -f docker-compose-postgres.yml -f docker-compose-pgadmin.yml -f docker-compose-adminer.yml up -d`
+
+This is the same as all the information in `docker-compose-production.yml`.

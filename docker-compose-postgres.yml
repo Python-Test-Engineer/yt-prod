@@ -1,0 +1,22 @@
+
+services:
+  production:  # host in PgAdmin registration connection tab
+    container_name: postgres_production_container 
+    image: postgres:latest 
+    networks:
+      - prod_network
+    environment:
+      - POSTGRES_DB=prod_db # optional
+      - POSTGRES_USER=prod_user
+      - POSTGRES_PASSWORD=prod_pwd
+    ports:
+      - "5432:5432"
+    volumes:
+      - prod_data:/var/lib/postgresql/data
+
+volumes:
+  prod_data:
+
+networks:
+  prod_network:
+ 

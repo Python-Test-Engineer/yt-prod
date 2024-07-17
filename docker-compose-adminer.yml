@@ -1,0 +1,13 @@
+
+services:
+  adminer:
+    image: adminer
+    networks:
+      - prod_network
+    restart: always
+
+    ports:
+      - 8080:8080
+networks:
+  prod_network:
+ 
