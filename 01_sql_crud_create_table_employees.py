@@ -12,8 +12,8 @@ console = Console()
 load_dotenv()
 
 # Access the variables
-enviroment = os.getenv("ENVIRONMENT")
-if enviroment == "PROD":
+environment = os.getenv("ENVIRONMENT")
+if environment == "PROD":
     host = os.getenv("PROD_HOST")
     user = os.getenv("PROD_USER")
     pwd = os.getenv("PROD_PWD")
@@ -26,7 +26,7 @@ else:
     db = os.getenv("DEV_DB")
     port = os.getenv("DEV_PORT")
 
-console.print(enviroment, host, user, pwd, db, port)
+console.print(environment, host, user, pwd, db, port)
 try:
     conn = psycopg2.connect(
         database=db,
