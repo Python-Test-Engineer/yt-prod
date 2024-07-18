@@ -77,4 +77,4 @@ except Exception as e:
 
 cursor.close()
 conn.close()
-print("PostgreSQL connection is closed")
+console.rint("[blue bold]PostgreSQL connection is closed[/]")
